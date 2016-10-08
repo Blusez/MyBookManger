@@ -32,7 +32,7 @@ public class BaseDao {
 	}
 	public Connection getConnection(){
 		try {
-			conn = DriverManager.getConnection(URL);
+			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

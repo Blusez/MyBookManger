@@ -7,7 +7,11 @@
 <title>登陆</title>
 </head>
 <body>
-<%=request.getAuthType()+request.getContextPath() %>
+	<%
+		String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+				+ request.getContextPath() + "/";
+		session.setAttribute("basePath", basePath);
+	%>
 	<div align="center">
 		<form action="LoginServlet" method="post">
 			<table width="300" cellpadding="0" cellspacing="0" border="1"
@@ -31,9 +35,8 @@
 						name="autoLogin" />5天内自动登陆</td>
 				</tr>
 				<tr>
-					<td height="35" align="center" colspan="2">
-						<input type="submit" value="登陸">
-					</td>
+					<td height="35" align="center" colspan="2"><input
+						type="submit" value="登陸"></td>
 				</tr>
 			</table>
 		</form>
