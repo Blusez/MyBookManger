@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -116,7 +117,19 @@ public class BookServlet extends HttpServlet {
 	 */
 	protected void queryById(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-	
+		String bookid = request.getParameter("bookid");
+		BookService bookService=new BookServiceImpl();
+	    Book book=bookService.getBookById(bookid);
+	    List<Book> list = new LinkedList<>();
+	    if (book!=null) {
+	    	list.add(book);
+		}
+	    Book b= new Book();
+	    b.setBookid(bookid);
+	    System.out.println(b);
+	    request.setAttribute("book", b);
+	    request.setAttribute("book_list",list);
+	    request.getRequestDispatcher("book_query.jsp").forward(request, response);
 	
 	}
 	
@@ -130,7 +143,16 @@ public class BookServlet extends HttpServlet {
 	 */
 	protected void queryByName(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-	
+		String bookname = request.getParameter("bookname");
+		BookService bookService=new BookServiceImpl();
+	    Book book=bookService.getBookByName(bookname);
+	    List<Book> list = new LinkedList<>();
+	    list.add(book);
+	    Book b= new Book();
+	    b.setBookname(bookname);
+	    request.setAttribute("book", b);
+	    request.setAttribute("book_list",list);
+	    request.getRequestDispatcher("book_query.jsp").forward(request, response);
 	
 	}
 	/**
@@ -142,7 +164,16 @@ public class BookServlet extends HttpServlet {
 	 */
 	protected void queryByAuthor(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-	
+		String bookauthor = request.getParameter("bookauthor");
+		BookService bookService=new BookServiceImpl();
+	    Book book=bookService.getBookById(bookauthor);
+	    List<Book> list = new LinkedList<>();
+	    list.add(book);
+	    Book b= new Book();
+	    b.setBookauthor(bookauthor);
+	    request.setAttribute("book", b);
+	    request.setAttribute("book_list",list);
+	    request.getRequestDispatcher("book_query.jsp").forward(request, response);
 	
 	}
 	/**
