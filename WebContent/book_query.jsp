@@ -16,7 +16,8 @@
 				<tr>
 					<td width="40%" align="center" height="35"><input type="text"
 						name="bookid" value="${book.bookid}" /></td>
-					<td align="center" height="35"><input type="submit" value="按ID查询" /></td>
+					<td align="center" height="35"><input type="submit"
+						value="按ID查询" /></td>
 				</tr>
 			</table>
 		</form>
@@ -28,7 +29,8 @@
 				<tr>
 					<td width="40%" align="center" height="35"><input type="text"
 						name="bookname" value="${book.bookname}" /></td>
-					<td align="center" height="35"><input type="submit" value="按书名查询" /></td>
+					<td align="center" height="35"><input type="submit"
+						value="按书名查询" /></td>
 				</tr>
 			</table>
 		</form>
@@ -40,7 +42,8 @@
 				<tr>
 					<td width="40%" align="center" height="35"><input type="text"
 						name="bookauthor" value="${book.bookauthor}" /></td>
-					<td align="center" height="35"><input type="submit" value="按作者查询" /></td>
+					<td align="center" height="35"><input type="submit"
+						value="按作者查询" /></td>
 				</tr>
 			</table>
 		</form>
