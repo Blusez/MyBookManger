@@ -7,10 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-    <br>
+	<br>
 	<div>
-	
-		<p>欢迎<font color="red">${sessionScope.user.username}</font>登录</p>
+
+		<p>
+			欢迎<font color="red">${sessionScope.user.username}</font>登录
+		</p>
 	</div>
 
 
