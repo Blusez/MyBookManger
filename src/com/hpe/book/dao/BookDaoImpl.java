@@ -3,6 +3,7 @@ package com.hpe.book.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.hpe.book.pojo.Book;
@@ -19,22 +20,22 @@ public class BookDaoImpl extends BaseDao implements BookDao {
 		List<Book> list = new ArrayList<>();
 		String sql = "select *from book";
 		ResultSet rs = null;
-		rs= super.executeQuery(sql, null);
+		rs = super.executeQuery(sql, null);
 		try {
-			while(rs.next()){
-				Book book=new Book();
+			while (rs.next()) {
+				Book book = new Book();
 				book.setBookid(rs.getString("bookid"));
 				book.setBookname(rs.getString("bookname"));
 				book.setBookauthor(rs.getString("bookauthor"));
 				book.setBookprice(rs.getFloat("bookprice"));
 				book.setBooktype(rs.getString("booktype"));
 				book.setBookdate(rs.getDate("bookdate"));
-				list.add(book);	
+				list.add(book);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				super.colseAll();
 			} catch (SQLException e) {
@@ -48,27 +49,26 @@ public class BookDaoImpl extends BaseDao implements BookDao {
 	@Override
 	public Book getBookById(String bookid) {
 		// TODO Auto-generated method stub
-		Book book=null;
-		String sql="select * from book where bookid=?";
-		Object[] args=new Object[]{bookid}; 
-		ResultSet rs=null;
+		Book book = null;
+		String sql = "select * from book where bookid=?";
+		Object[] args = new Object[] { bookid };
+		ResultSet rs = null;
 		try {
-			rs=super.executeQuery(sql, args);
-			while(rs.next()){
-			    book=new Book();
+			rs = super.executeQuery(sql, args);
+			while (rs.next()) {
+				book = new Book();
 				book.setBookid(rs.getString("bookid"));
 				book.setBookname(rs.getString("bookname"));
 				book.setBookauthor(rs.getString("bookauthor"));
 				book.setBookprice(rs.getFloat("bookprice"));
 				book.setBooktype(rs.getString("booktype"));
 				book.setBookdate(rs.getDate("bookdate"));
-				
+
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		finally{
+		} finally {
 			try {
 				super.colseAll();
 			} catch (SQLException e) {
@@ -82,27 +82,26 @@ public class BookDaoImpl extends BaseDao implements BookDao {
 
 	@Override
 	public List<Book> getBookByAuthor(String bookauthor) {
-		List<Book> list=new ArrayList<Book>();
-		String sql="select * from book where bookauthor=?";
-		Object[] args=new Object[]{bookauthor}; 
-		ResultSet rs=null;
+		List<Book> list = new ArrayList<Book>();
+		String sql = "select * from book where bookauthor=?";
+		Object[] args = new Object[] { bookauthor };
+		ResultSet rs = null;
 		try {
-			rs=super.executeQuery(sql, args);
-			while(rs.next()){
-				Book book=new Book();
+			rs = super.executeQuery(sql, args);
+			while (rs.next()) {
+				Book book = new Book();
 				book.setBookid(rs.getString("bookid"));
 				book.setBookname(rs.getString("bookname"));
 				book.setBookauthor(rs.getString("bookauthor"));
 				book.setBookprice(rs.getFloat("bookprice"));
 				book.setBooktype(rs.getString("booktype"));
 				book.setBookdate(rs.getDate("bookdate"));
-				list.add(book);	
+				list.add(book);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		finally{
+		} finally {
 			try {
 				super.colseAll();
 			} catch (SQLException e) {
@@ -116,27 +115,26 @@ public class BookDaoImpl extends BaseDao implements BookDao {
 
 	@Override
 	public Book getBookByName(String bookname) {
-		Book book=null;
-		String sql="select * from book where bookname=?";
-		Object[] args=new Object[]{bookname}; 
-		ResultSet rs=null;
+		Book book = null;
+		String sql = "select * from book where bookname=?";
+		Object[] args = new Object[] { bookname };
+		ResultSet rs = null;
 		try {
-			rs=super.executeQuery(sql, args);
-			while(rs.next()){
-			    book=new Book();
+			rs = super.executeQuery(sql, args);
+			while (rs.next()) {
+				book = new Book();
 				book.setBookid(rs.getString("bookid"));
 				book.setBookname(rs.getString("bookname"));
 				book.setBookauthor(rs.getString("bookauthor"));
 				book.setBookprice(rs.getFloat("bookprice"));
 				book.setBooktype(rs.getString("booktype"));
 				book.setBookdate(rs.getDate("bookdate"));
-				
+
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		finally{
+		} finally {
 			try {
 				super.colseAll();
 			} catch (SQLException e) {
@@ -150,15 +148,15 @@ public class BookDaoImpl extends BaseDao implements BookDao {
 
 	@Override
 	public int deleteById(String bookid) {
-		int num=-1;
-		String sql="delete from book where bookid=?";
-		Object[] args=new Object[]{bookid}; 
-	    try {
-			num=super.executeUpdate(sql, args);
+		int num = -1;
+		String sql = "delete from book where bookid=?";
+		Object[] args = new Object[] { bookid };
+		try {
+			num = super.executeUpdate(sql, args);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				super.colseAll();
 			} catch (SQLException e) {
@@ -171,15 +169,16 @@ public class BookDaoImpl extends BaseDao implements BookDao {
 
 	@Override
 	public int update(Book book) {
-		int num=-1;
-		String sql="update book set bookname=?,bookauthor=?,booktype=?,bookprice=?,bookdate=? where bookid=?";
-		Object[] args=new Object[]{book.getBookname(),book.getBookauthor(),book.getBooktype(),book.getBookprice(),new java.sql.Date(book.getBookdate().getTime()),book.getBookid()}; 
-	    try {
-			num=super.executeUpdate(sql, args);
+		int num = -1;
+		String sql = "update book set bookname=?,bookauthor=?,booktype=?,bookprice=?,bookdate=? where bookid=?";
+		Object[] args = new Object[] { book.getBookname(), book.getBookauthor(), book.getBooktype(),
+				book.getBookprice(), new java.sql.Date(book.getBookdate().getTime()), book.getBookid() };
+		try {
+			num = super.executeUpdate(sql, args);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				super.colseAll();
 			} catch (SQLException e) {
@@ -192,15 +191,16 @@ public class BookDaoImpl extends BaseDao implements BookDao {
 
 	@Override
 	public int addBook(Book book) {
-		int num=-1;
-		String sql="insert into book (bookid,bookname,bookauthor,booktype,bookprice,bookdate) values(?,?,?,?,?,?)";
-		Object[] args=new Object[]{book.getBookid(),book.getBookname(),book.getBookauthor(),book.getBooktype(),book.getBookprice(),new java.sql.Date(book.getBookdate().getTime())}; 
-	    try {
-			num=super.executeUpdate(sql, args);
+		int num = -1;
+		String sql = "insert into book (bookid,bookname,bookauthor,booktype,bookprice,bookdate) values(?,?,?,?,?,?)";
+		Object[] args = new Object[] { book.getBookid(), book.getBookname(), book.getBookauthor(), book.getBooktype(),
+				book.getBookprice(), new java.sql.Date(book.getBookdate().getTime()) };
+		try {
+			num = super.executeUpdate(sql, args);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				super.colseAll();
 			} catch (SQLException e) {
@@ -209,6 +209,46 @@ public class BookDaoImpl extends BaseDao implements BookDao {
 			}
 		}
 		return num;
+	}
+
+	@Override
+	public int getTotalCount() {
+		String sql = "select count(*) totalcount from book";
+		ResultSet rs = super.executeQuery(sql, null);
+		int num = 0;
+		try {
+			while (rs.next()) {
+				num = rs.getInt("totalcount");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return num;
+	}
+
+	@Override
+	public List<Book> getBookList(int currentStart, int currentEnd) {
+		String sql = "select * from (select b.*,rownum rn from book b where rownum<=?) where rn>=?";
+		Object[] args = new Object[]{currentEnd,currentStart};
+		List<Book> list = new LinkedList<>();
+		try(ResultSet rs = super.executeQuery(sql, args)){
+			while (rs.next()) {
+				Book book = new Book();
+				book.setBookid(rs.getString("bookid"));
+				book.setBookname(rs.getString("bookname"));
+				book.setBookauthor(rs.getString("bookauthor"));
+				book.setBookprice(rs.getFloat("bookprice"));
+				book.setBooktype(rs.getString("booktype"));
+				book.setBookdate(rs.getDate("bookdate"));
+				list.add(book);	
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }

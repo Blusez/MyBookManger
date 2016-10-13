@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.hpe.book.pojo.Book;
 import com.hpe.book.service.BookService;
 import com.hpe.book.service.BookServiceImpl;
+import com.hpe.book.util.PageUtil;
 
 
 
@@ -86,6 +87,9 @@ public class BookServlet extends HttpServlet {
 		case "delete":
 			this.delete(request, response);
 
+			break;
+		case "page":
+			this.queryByPage(request, response);
 			break;
 
 		default:
@@ -282,8 +286,39 @@ public class BookServlet extends HttpServlet {
 		this.query(request, response);
 	
 	}
-	
-	
+	/**
+	 * 分页查询图书信息
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 * @throws ServletException 
+	 */
+	protected void queryByPage(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		int currentPage = 1;
+		int pageSize=2;
+		String currentpage = request.getParameter("currentpage");
+		String pagesize = request.getParameter("pagesize");
+		if (currentpage!=null ) {
+			currentPage=Integer.parseInt(currentpage);
+		}
+		if (pagesize!=null) {
+			pageSize = Integer.parseInt(pagesize);
+		}
+		PageUtil pageUtil = new PageUtil();
+		BookService bookService=new BookServiceImpl();
+		
+		int totalCount = bookService.getTotalCount();
+		pageUtil.setTotalCount(totalCount);
+		pageUtil.setPageSize(pageSize);
+		pageUtil.setCurrentPage(currentPage);
+		List<Book> list= bookService.getBookList(pageUtil.getCurrentStart(), pageUtil.getCurrentEnd());
+		
+		request.setAttribute("pageUtil", pageUtil);
+		request.setAttribute("book_list", list);
+		request.getRequestDispatcher("book_list.jsp").forward(request, response);
+		
+	}
 	
 
 }
