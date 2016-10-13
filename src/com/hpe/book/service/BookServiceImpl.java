@@ -54,4 +54,16 @@ public class BookServiceImpl implements BookService {
 		return bookDao.addBook(book);
 	}
 
+	@Override
+	public int getTotalCount() {
+		// TODO Auto-generated method stub
+		return bookDao.getTotalCount();
+	}
+
+	@Override
+	public List<Book> getBookList(int currentStart, int currentEnd) {
+		// TODO Auto-generated method stub
+		return bookDao.getBookList(currentStart, currentEnd);
+	}
+
 }

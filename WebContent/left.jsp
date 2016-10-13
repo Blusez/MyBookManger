@@ -41,6 +41,7 @@ ul li {
 		<li><a href="${basePath}BookServlet?reqtype=query" target="main">图书信息列表</a></li>
 		<li><a href="${basePath}book_add.jsp" target="main">新增图书</a></li>
 		<li><a href="${basePath}book_query.jsp" target="main">查询图书信息</a></li>
+		<li><a href="${basePath}BookServlet?reqtype=page" target="main">分页图书信息列表</a></li>
 		<li><a href="${basePath}LoginServlet?reqtype=logout"
 			target="_top">退出登录</a></li>
 	</ul>

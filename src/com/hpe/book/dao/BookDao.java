@@ -23,5 +23,11 @@ public interface BookDao {
 	int update(Book book);
 	//添加图书
 	int addBook(Book book);
+	//分页查询
+	//1.获取图书记录总数
+	int getTotalCount();
+	//2.获取当前页的图书信息
+	List<Book> getBookList(int currentStart,int currentEnd);
+	
 	
 }

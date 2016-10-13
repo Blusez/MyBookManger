@@ -21,7 +21,7 @@ import sun.misc.URLClassPath;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter(filterName = "LoginFilter", urlPatterns = { "*.jsp" }, initParams = {
+@WebFilter(filterName = "LoginFilter", urlPatterns = { "/*" }, initParams = {
 		@WebInitParam(name = "path", value = "loginServlet") })
 public class LoginFilter implements Filter {
 
@@ -55,15 +55,18 @@ public class LoginFilter implements Filter {
 		// 获得用户请求的URI
 		String path = req.getRequestURI();
 		HttpSession session = req.getSession();
+//		System.out.println("getServletPath:"+req.getServletPath());
+//		System.out.println("req.getRequestURI:"+req.getRequestURI());
 		// 登陆页面无需过滤
-		if (path.indexOf("/login.jsp") > -1) {
+		if (path.indexOf("/login.jsp") > -1|| path.endsWith("LoginServlet")) {
 			chain.doFilter(req, resp);
 			return;
 		}
 		User user = (User) session.getAttribute("user");
-		// 判断如果没有取到员工信息,就跳转到登陆页面
+		// 判断如果没有取到信息,就跳转到登陆页面
 		if (user == null || "".equals(user)) {
 			// 跳转到登陆页面
+			resp.getWriter().print("<script>alert('未登录'); </script>");;
 			resp.sendRedirect("login.jsp");
 		} else {
 			// 已经登陆,继续此次请求
