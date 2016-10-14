@@ -11,7 +11,7 @@ public interface BookService {
 
 	List<Book> getBookByAuthor(String bookauthor);// 通过作者获取图书信息
 
-	Book getBookByName(String bookname);// 通过作者获取图书信息
+	Book getBookByName(String bookname);// 通过书名获取图书信息
 
 	int delete(String bookid);// 通过bookid删除图书信息
 

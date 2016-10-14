@@ -18,8 +18,6 @@ import com.hpe.book.service.BookService;
 import com.hpe.book.service.BookServiceImpl;
 import com.hpe.book.util.PageUtil;
 
-
-
 /**
  * Servlet implementation class BookSevlet
  */
@@ -39,8 +37,8 @@ public class BookServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doPost(request, response);
 	}
@@ -49,18 +47,18 @@ public class BookServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		String reqType = request.getParameter("reqtype");
-		if (reqType==null) {
+		if (reqType == null) {
 			reqType = "query";
 		}
 		switch (reqType) {
 		case "query":
-            this.query(request, response);
+			this.query(request, response);
 			break;
 
 		case "queryById":
@@ -72,17 +70,17 @@ public class BookServlet extends HttpServlet {
 
 			break;
 		case "queryByAuthor":
-
+			this.queryByAuthor(request, response);
 			break;
 		case "add":
 			this.add(request, response);
 
 			break;
 		case "updateById":
-            this.updateById(request, response);
+			this.updateById(request, response);
 			break;
 		case "update":
-            this.update(request, response);
+			this.update(request, response);
 			break;
 		case "delete":
 			this.delete(request, response);
@@ -97,228 +95,240 @@ public class BookServlet extends HttpServlet {
 		}
 
 	}
+
 	/**
 	 * 查询图书的所有信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected void query(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-	    BookService bookService=new BookServiceImpl();
-	    List<Book> list=bookService.getBookList();
-	    request.setAttribute("book_list",list);
-	    request.getRequestDispatcher("book_list.jsp").forward(request, response);
-	
+	protected void query(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		BookService bookService = new BookServiceImpl();
+		List<Book> list = bookService.getBookList();
+		request.setAttribute("book_list", list);
+		request.getRequestDispatcher("book_list.jsp").forward(request, response);
+
 	}
+
 	/**
 	 * 通过Id查询图书信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected void queryById(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String bookid = request.getParameter("bookid");
-		BookService bookService=new BookServiceImpl();
-	    Book book=bookService.getBookById(bookid);
-	    List<Book> list = new LinkedList<>();
-	    if (book!=null) {
-	    	list.add(book);
+	protected void queryById(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String bookid = request.getParameter("bookid").trim();
+		BookService bookService = new BookServiceImpl();
+		Book book = bookService.getBookById(bookid);
+		List<Book> list = new LinkedList<>();
+		if (book != null) {
+			list.add(book);
 		}
-	    Book b= new Book();
-	    b.setBookid(bookid);
-	    System.out.println(b);
-	    request.setAttribute("book", b);
-	    request.setAttribute("book_list",list);
-	    request.getRequestDispatcher("book_query.jsp").forward(request, response);
-	
+		Book b = new Book();
+		b.setBookid(bookid);
+		System.out.println(book);
+		request.setAttribute("book", book);
+		request.setAttribute("book_list", list);
+		request.getRequestDispatcher("book_query.jsp").forward(request, response);
+
 	}
-	
-	
+
 	/**
-	 *  通过书名查询图书信息
+	 * 通过书名查询图书信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected void queryByName(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void queryByName(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String bookname = request.getParameter("bookname").trim();
+		BookService bookService = new BookServiceImpl();
+		Book book = bookService.getBookByName(bookname);
+		List<Book> list = new LinkedList<>();
+		if (book != null) {
+			list.add(book);
+		}
+		Book b = new Book();
+		b.setBookname(bookname);
+		request.setAttribute("book", book);
+		request.setAttribute("book_list", list);
+		request.getRequestDispatcher("book_query.jsp").forward(request, response);
+
+	}
+
+	/**
+	 * 通过作者查询图书信息
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	protected void queryByAuthor(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String bookauthor = request.getParameter("bookauthor").trim();
+		BookService bookService = new BookServiceImpl();
+		List<Book> list =  bookService.getBookByAuthor(bookauthor);
+		Book b = new Book();
+		b.setBookauthor(bookauthor);
+		request.setAttribute("book", b);
+		request.setAttribute("book_list", list);
+		request.getRequestDispatcher("book_query.jsp").forward(request, response);
+
+	}
+
+	/**
+	 * 添加图书信息
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	protected void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String bookid = request.getParameter("bookid");
 		String bookname = request.getParameter("bookname");
-		BookService bookService=new BookServiceImpl();
-	    Book book=bookService.getBookByName(bookname);
-	    List<Book> list = new LinkedList<>();
-	    list.add(book);
-	    Book b= new Book();
-	    b.setBookname(bookname);
-	    request.setAttribute("book", b);
-	    request.setAttribute("book_list",list);
-	    request.getRequestDispatcher("book_query.jsp").forward(request, response);
-	
-	}
-	/**
-	 *  通过作者查询图书信息
-	 * @param request
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
-	 */
-	protected void queryByAuthor(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
 		String bookauthor = request.getParameter("bookauthor");
-		BookService bookService=new BookServiceImpl();
-	    Book book=bookService.getBookById(bookauthor);
-	    List<Book> list = new LinkedList<>();
-	    list.add(book);
-	    Book b= new Book();
-	    b.setBookauthor(bookauthor);
-	    request.setAttribute("book", b);
-	    request.setAttribute("book_list",list);
-	    request.getRequestDispatcher("book_query.jsp").forward(request, response);
-	
-	}
-	/**
-	 *  添加图书信息
-	 * @param request
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
-	 */
-	protected void add(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String bookid=request.getParameter("bookid");
-		String bookname=request.getParameter("bookname");
-		String bookauthor=request.getParameter("bookauthor");
-		String booktype=request.getParameter("booktype");
-		String bookprice=request.getParameter("bookprice");
-		String bookdate=request.getParameter("bookdate");
-		
-		Book book=new Book();
+		String booktype = request.getParameter("booktype");
+		String bookprice = request.getParameter("bookprice");
+		String bookdate = request.getParameter("bookdate");
+
+		Book book = new Book();
 		book.setBookid(bookid);
 		book.setBookname(bookname);
 		book.setBookauthor(bookauthor);
 		book.setBooktype(booktype);
 		book.setBookprice(Float.parseFloat(bookprice));
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-		Date dt=null;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dt = null;
 		try {
-			dt=sdf.parse(bookdate);
-			
+			dt = sdf.parse(bookdate);
+
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		book.setBookdate(dt);
-		BookService bookService=new BookServiceImpl();
-		int num=bookService.addBook(book);
+		BookService bookService = new BookServiceImpl();
+		int num = bookService.addBook(book);
 		this.query(request, response);
 	}
-	
+
 	/**
-	 *  修改图书信息之前先找出该条记录
+	 * 修改图书信息之前先找出该条记录
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected void updateById(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String bookid=request.getParameter("bookid");
-		BookService bookService=new BookServiceImpl();
-		Book book=bookService.getBookById(bookid);
+	protected void updateById(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String bookid = request.getParameter("bookid");
+		BookService bookService = new BookServiceImpl();
+		Book book = bookService.getBookById(bookid);
 		request.setAttribute("book", book);
 		request.getRequestDispatcher("book_update.jsp").forward(request, response);
-			
-	
+
 	}
+
 	/**
-	 *  修改图书信息
+	 * 修改图书信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected void update(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String bookid=request.getParameter("bookid");
-		String bookname=request.getParameter("bookname");
-		String bookauthor=request.getParameter("bookauthor");
-		String booktype=request.getParameter("booktype");
-		String bookprice=request.getParameter("bookprice");
-		String bookdate=request.getParameter("bookdate");
-		
-		Book book=new Book();
+	protected void update(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String bookid = request.getParameter("bookid");
+		String bookname = request.getParameter("bookname");
+		String bookauthor = request.getParameter("bookauthor");
+		String booktype = request.getParameter("booktype");
+		String bookprice = request.getParameter("bookprice");
+		String bookdate = request.getParameter("bookdate");
+
+		Book book = new Book();
 		book.setBookid(bookid);
 		book.setBookname(bookname);
 		book.setBookauthor(bookauthor);
 		book.setBooktype(booktype);
 		book.setBookprice(Float.parseFloat(bookprice));
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-		Date dt=null;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dt = null;
 		try {
-			dt=sdf.parse(bookdate);
-			
+			dt = sdf.parse(bookdate);
+
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		book.setBookdate(dt);
-		BookService bookService=new BookServiceImpl();
-		int num=bookService.update(book);
+		BookService bookService = new BookServiceImpl();
+		int num = bookService.update(book);
 		this.query(request, response);
-	
+
 	}
+
 	/**
-	 *  删除图书信息
+	 * 删除图书信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected void delete(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String bookid=request.getParameter("bookid");
-		BookService bookService=new BookServiceImpl();
-		int num=bookService.delete(bookid);
+	protected void delete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String bookid = request.getParameter("bookid");
+		BookService bookService = new BookServiceImpl();
+		int num = bookService.delete(bookid);
 		this.query(request, response);
-	
+
 	}
+
 	/**
 	 * 分页查询图书信息
+	 * 
 	 * @param request
 	 * @param response
-	 * @throws IOException 
-	 * @throws ServletException 
+	 * @throws IOException
+	 * @throws ServletException
 	 */
-	protected void queryByPage(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void queryByPage(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		int currentPage = 1;
-		int pageSize=2;
+		int pageSize = 2;
 		String currentpage = request.getParameter("currentpage");
 		String pagesize = request.getParameter("pagesize");
-		if (currentpage!=null ) {
-			currentPage=Integer.parseInt(currentpage);
+		if (currentpage != null && !currentpage.equals("")) {
+			currentPage = Integer.parseInt(currentpage);
 		}
-		if (pagesize!=null) {
+		if (pagesize != null && !pagesize.equals("")) {
 			pageSize = Integer.parseInt(pagesize);
 		}
 		PageUtil pageUtil = new PageUtil();
-		BookService bookService=new BookServiceImpl();
-		
+		BookService bookService = new BookServiceImpl();
+
 		int totalCount = bookService.getTotalCount();
 		pageUtil.setTotalCount(totalCount);
 		pageUtil.setPageSize(pageSize);
 		pageUtil.setCurrentPage(currentPage);
-		List<Book> list= bookService.getBookList(pageUtil.getCurrentStart(), pageUtil.getCurrentEnd());
-		
+		List<Book> list = bookService.getBookList(pageUtil.getCurrentStart(), pageUtil.getCurrentEnd());
+
 		request.setAttribute("pageUtil", pageUtil);
 		request.setAttribute("book_list", list);
 		request.getRequestDispatcher("book_list.jsp").forward(request, response);
-		
+
 	}
-	
 
 }

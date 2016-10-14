@@ -83,7 +83,7 @@ public class BookDaoImpl extends BaseDao implements BookDao {
 	@Override
 	public List<Book> getBookByAuthor(String bookauthor) {
 		List<Book> list = new ArrayList<Book>();
-		String sql = "select * from book where bookauthor=?";
+		String sql = "select * from book where bookauthor=%?%";
 		Object[] args = new Object[] { bookauthor };
 		ResultSet rs = null;
 		try {
