@@ -8,8 +8,7 @@
 <script type="text/javascript">
 	$(function(){
 			var size = $("#size").val();
-		 	alert(size); 
-			$("#selectpage option[text="+size+"]").attr("selected", true);
+			$("#selectpage option[value='"+size+"']").attr("selected", true);
 		$("#selectpage").change(function(){
 			window.location.href='BookServlet?reqtype=page&pagesize='+$("#selectpage").val();
 		});

@@ -11,7 +11,7 @@
 	<div>
 
 		<p>
-			欢迎<font color="red">${sessionScope.user.username}</font>登录
+			欢迎<font color="red">${sessionScope.user.username}</font>登录成功，目前在线人数<font color="blue">${user_list.size() }</font>
 		</p>
 	</div>
 
