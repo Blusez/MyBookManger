@@ -1,6 +1,7 @@
 package com.hpe.book.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,6 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.hpe.book.pojo.Book;
 import com.hpe.book.service.BookService;
 import com.hpe.book.service.BookServiceImpl;
@@ -24,7 +28,7 @@ import com.hpe.book.util.PageUtil;
 @WebServlet("/BookServlet")
 public class BookServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	PageUtil pageUtil = new PageUtil();
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -106,11 +110,7 @@ public class BookServlet extends HttpServlet {
 	 */
 	protected void query(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		BookService bookService = new BookServiceImpl();
-		List<Book> list = bookService.getBookList();
-		request.setAttribute("book_list", list);
-		request.getRequestDispatcher("book_list.jsp").forward(request, response);
-
+		this.queryByPage(request, response);
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class BookServlet extends HttpServlet {
 		}
 		Book b = new Book();
 		b.setBookid(bookid);
-		System.out.println(book);
+		
 		request.setAttribute("book", book);
 		request.setAttribute("book_list", list);
 		request.getRequestDispatcher("book_query.jsp").forward(request, response);
@@ -292,7 +292,19 @@ public class BookServlet extends HttpServlet {
 		String bookid = request.getParameter("bookid");
 		BookService bookService = new BookServiceImpl();
 		int num = bookService.delete(bookid);
-		this.query(request, response);
+		JSONObject json =new JSONObject();
+		if (num>0) {
+			json.put("result", true);
+		}else{
+			json.put("result", false);
+		}
+		PrintWriter out = response.getWriter();
+		out.print(json.toString());
+		String change= request.getParameter("change");
+		if (change==null) {
+			this.query(request, response);
+		}
+		
 
 	}
 
@@ -316,7 +328,6 @@ public class BookServlet extends HttpServlet {
 		if (pagesize != null && !pagesize.equals("")) {
 			pageSize = Integer.parseInt(pagesize);
 		}
-		PageUtil pageUtil = new PageUtil();
 		BookService bookService = new BookServiceImpl();
 
 		int totalCount = bookService.getTotalCount();
@@ -324,10 +335,15 @@ public class BookServlet extends HttpServlet {
 		pageUtil.setPageSize(pageSize);
 		pageUtil.setCurrentPage(currentPage);
 		List<Book> list = bookService.getBookList(pageUtil.getCurrentStart(), pageUtil.getCurrentEnd());
+		
+		JSONObject json= new JSONObject(pageUtil);
+		JSONArray arr=new JSONArray(list.toArray());
+		JSONObject json1= new JSONObject();
+		json1.put("pageUtil", json);
+		json1.put("book_list", arr);
+		PrintWriter out=response.getWriter();
+		out.print(json1.toString());
 
-		request.setAttribute("pageUtil", pageUtil);
-		request.setAttribute("book_list", list);
-		request.getRequestDispatcher("book_list.jsp").forward(request, response);
 
 	}
 

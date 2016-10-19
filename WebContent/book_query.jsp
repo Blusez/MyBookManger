@@ -51,7 +51,7 @@
 	<c:if test="${ not empty book_list}">
 		<jsp:include page="book_list.jsp"></jsp:include>
 	</c:if>
-	<c:if test="${(empty book_list )&&(not empty book)}">
+	<c:if test="${(empty book_list)&&(not empty book)}">
 		<c:out value="没有这本书"></c:out>
 	</c:if>
 </body>
