@@ -123,19 +123,18 @@ public class BookServlet extends HttpServlet {
 	 */
 	protected void queryById(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
 		String bookid = request.getParameter("bookid").trim();
 		BookService bookService = new BookServiceImpl();
 		Book book = bookService.getBookById(bookid);
-		List<Book> list = new LinkedList<>();
-		if (book != null) {
-			list.add(book);
-		}
-		Book b = new Book();
-		b.setBookid(bookid);
 		
-		request.setAttribute("book", book);
-		request.setAttribute("book_list", list);
-		request.getRequestDispatcher("book_query.jsp").forward(request, response);
+		JSONObject json = new JSONObject(book);
+//		if (book!= null) {
+//			json.put("book", book);
+//		}
+		PrintWriter out = response.getWriter();
+		out.println(json.toString());
 
 	}
 

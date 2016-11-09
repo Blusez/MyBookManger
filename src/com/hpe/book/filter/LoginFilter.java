@@ -21,8 +21,8 @@ import sun.misc.URLClassPath;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter(filterName = "LoginFilter", urlPatterns = { "/*" }, initParams = {
-		@WebInitParam(name = "path", value = "loginServlet") })
+//@WebFilter(filterName = "LoginFilter", urlPatterns = { "/*" }, initParams = {
+//		@WebInitParam(name = "path", value = "loginServlet") })
 public class LoginFilter implements Filter {
 
 	/**

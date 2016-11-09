@@ -6,53 +6,74 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var url = "BookServlet";
+		$("#querrybyid").click(function() {
+			sendData = {
+				reqtype : "queryById",
+				bookid : $("input[name='bookid']").val()
+			}
+			$.post(url, sendData, function(data,status) {
+				if(status=="success")
+					showd(data)
+				else
+					$("#showdata").html("没有这本书")
+					
+			}, "json",function(error){
+			})
+			
+		});
+		function showd(data) {
+			$("#showdata" ).empty()
+			$tr = '<h1>图书</h1><table width="80%" cellpadding="0" cellspacing="0" border="1"bordercolor="#c0c0c0"><tr><td width="15%" height="35" align="center">'
+					+ data.bookid
+					+ '</td><td width="15%" height="35" align="center">'
+					+ data.bookname
+					+ '</td><td width="15%" height="35" align="center">'
+					+ data.bookauthor
+					+ '</td><td width="15%" height="35" align="center">'
+					+ data.booktype
+					+ '</td><td width="10%" height="35" align="center">'
+					+ data.bookprice
+					+ '</td><td width="15%" height="35" align="center">'
+					+ data.bookdate
+					+ '</td><td width="15%" height="35" align="center"><button>删除</button></td</tr></table>';
+			$("#showdata").append($tr);
+		}
+	})
+</script>
 </head>
 <body>
 	<div align="center">
 		<h3>查询图书</h3>
-		<form action="${basePath}BookServlet?reqtype=queryById" method="post">
-			<table width="500" cellpadding="0" cellspacing="0" border="1"
-				bordercolor="#c0c0c0">
-				<tr>
-					<td width="40%" align="center" height="35"><input type="text"
-						name="bookid" value="${book.bookid}" /></td>
-					<td align="center" height="35"><input type="submit"
-						value="按ID查询" /></td>
-				</tr>
-			</table>
-		</form>
+		<table width="500" cellpadding="0" cellspacing="0" border="1"
+			bordercolor="#c0c0c0">
+			<tr>
+				<td width="40%" align="center" height="35"><input type="text"
+					name="bookid" /></td>
+				<td align="center" height="35">
+					<button value="按ID查询" id="querrybyid">按ID查询</button>
+				</td>
+			</tr>
 
-		<form action="${basePath}BookServlet?reqtype=queryByName"
-			method="post">
-			<table width="500" cellpadding="0" cellspacing="0" border="1"
-				bordercolor="#c0c0c0">
-				<tr>
-					<td width="40%" align="center" height="35"><input type="text"
-						name="bookname" value="${book.bookname}" /></td>
-					<td align="center" height="35"><input type="submit"
-						value="按书名查询" /></td>
-				</tr>
-			</table>
-		</form>
+			<tr>
+				<td width="40%" align="center" height="35"><input type="text"
+					name="bookname" /></td>
+				<td align="center" height="35"><input type="submit"
+					value="按书名查询"></td>
+			</tr>
 
-		<form action="${basePath}BookServlet?reqtype=queryByAuthor"
-			method="post">
-			<table width="500" cellpadding="0" cellspacing="0" border="1"
-				bordercolor="#c0c0c0">
-				<tr>
-					<td width="40%" align="center" height="35"><input type="text"
-						name="bookauthor" value="${book.bookauthor}" /></td>
-					<td align="center" height="35"><input type="submit"
-						value="按作者查询" /></td>
-				</tr>
-			</table>
-		</form>
+			<tr>
+				<td width="40%" align="center" height="35"><input type="text"
+					name="bookauthor" value="${book.bookauthor}" /></td>
+				<td align="center" height="35"><input type="submit"
+					value="按作者查询" /></td>
+			</tr>
+
+		</table>
 	</div>
-	<c:if test="${ not empty book_list}">
-		<jsp:include page="book_list.jsp"></jsp:include>
-	</c:if>
-	<c:if test="${(empty book_list)&&(not empty book)}">
-		<c:out value="没有这本书"></c:out>
-	</c:if>
+	<div id="showdata" align="center"></div>
 </body>
 </html>

@@ -7,16 +7,18 @@
 <script src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		
+
 		var url = "BookServlet";
+		//
 		(function() {
-		var sendData = {
-			"reqtype" : "page",
-			"currentpage" : "1"
-		};
-		$.post(url, sendData, function(data) {
-			showdata(data);
-		}, "json");
+			var sendData = {
+				"reqtype" : "page",
+				"currentpage" : "1"
+			};
+
+			$.post(url, sendData, function(data) {
+				showdata(data);
+			}, "json");
 		})();
 
 		//设置页面大小
@@ -129,16 +131,15 @@
 				}, "json")
 			});
 			//选择当前页面大小
-			$tr1.find("select").eq(0).change(
-					function() {
-						var sendData = {
-							reqtype : "page",
-							pagesize : $("#selectpage").val()
-						};
-						$.post(url, sendData, function(data) {
-							showdata(data);
-						}, "json");
-					});
+			$tr1.find("select").eq(0).change(function() {
+				var sendData = {
+					reqtype : "page",
+					pagesize : $("#selectpage").val()
+				};
+				$.post(url, sendData, function(data) {
+					showdata(data);
+				}, "json");
+			});
 			//增加当前页等信息
 			$tr1.find("span").eq(0).html(
 					"当前页:" + data.pageUtil.currentPage + "&nbsp;&nbsp;共"
@@ -147,7 +148,7 @@
 			$("#table_book_list").append($tr1);
 			//设置select选择框为已选择的大小
 			$("#selectpage option[value='" + data.pageUtil.pageSize + "']")
-			.attr("selected", true);
+					.attr("selected", true);
 		}
 		function selectp() {
 			var size = $
